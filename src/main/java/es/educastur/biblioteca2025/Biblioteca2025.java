@@ -213,12 +213,8 @@ private void menuPrestamos(){
             System.out.println("TELEFONO:");
             telefono=sc.next();
         }while(!telefono.matches("[6-7][0-9]{8}")); 
-        do{
-        System.out.println("FECHA DE NACIMIENTO: (AÑO-MES-DÍA)");
-        fechaNac = sc.next();
-        }while(!fechaNac.matches("(19|20)(((([02468][048])|([13579][26]))-02-29)|(\\d{2})-((02-((0[1-9])|1\\d|2[0-8]))|((((0[13456789])|1[012]))-((0[1-9])|((1|2)\\d)|30))|(((0[13578])|(1[02]))-31)))"));      
 
-        usuarios.add(new Usuario(dni,nombre,email,telefono,LocalDate.parse(fechaNac)));
+        usuarios.add(new Usuario(dni,nombre,email,telefono));
     }
 
     private void eliminarUsuario() {
@@ -276,7 +272,15 @@ private void menuPrestamos(){
     }
 
     private void eliminarPrestamo() {
-        
+        String dni=solicitaDni();
+        System.out.println(dni);
+        int pos=buscaDni(dni);
+        usuarios.remove(pos);
+        System.out.println(pos);
+        System.out.println();
+        System.out.println("La petición se ha procesado correctamente");
+        System.out.println("El prestamo ha sido eliminado del registro de la Biblioteca");
+        System.out.println(prestamos);
     }
 
     private void modificarPrestamo() {
