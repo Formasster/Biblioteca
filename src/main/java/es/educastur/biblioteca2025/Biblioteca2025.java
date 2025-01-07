@@ -271,11 +271,16 @@ private void menuPrestamos(){
       
     }
 
+    /**
+     * Método para eliminar un prestamo  Privado, no devuelve ni recoge nada  
+     */
+
     private void eliminarPrestamo() {
         String dni=solicitaDni();
         System.out.println(dni);
         int pos=buscaDni(dni);
         usuarios.remove(pos);
+        //libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()-1);
         System.out.println(pos);
         System.out.println();
         System.out.println("La petición se ha procesado correctamente");
