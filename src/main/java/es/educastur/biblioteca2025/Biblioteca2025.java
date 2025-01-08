@@ -124,7 +124,7 @@ private void menuPrestamos(){
     int opcion=0;
     do{
         System.out.println("\n\n\n\n\n\t\t\t\tPRESTAMOS\n");
-        System.out.println("\t\t\t\t1 - NUEVO LIBRO");
+        System.out.println("\t\t\t\t1 - NUEVO PRESTAMO");
         System.out.println("\t\t\t\t2 - ELIMINAR PRESTAMO");
         System.out.println("\t\t\t\t3 - MODIFICAR PRESTAMO");
         System.out.println("\t\t\t\t4 - LISTA DE PRESTAMOS");
@@ -185,7 +185,18 @@ private void menuPrestamos(){
     }
 
     private void modificarLibro() {
-
+        Scanner sc=new Scanner (System.in);
+        System.out.println("El ISBN del libro que se desea modificar: ");
+        String isbn=sc.nextLine();
+        int pos=buscaIsbn(isbn);
+            if (pos==-1){
+                System.out.println("El ISBN que buscas no está en el registro"); 
+            }else{
+                System.out.println("Cambio de ejemplares");
+                System.out.println("Introduce la nueva cantidad de ejemplares que existe en el registro: ");
+                int ejemplares = sc.nextInt();
+                libros.get(pos).setEjemplares(ejemplares);
+            }
     }
 
     private void listaLibros() {
@@ -229,8 +240,23 @@ private void menuPrestamos(){
         System.out.println(usuarios);
     }
 
+    /**
+     * Método para modificar el Usuario. Se puede modificar teléfono. 
+     * Poner tb el cambio de email
+     */
+
     private void modificarUsuario() {
-        
+        Scanner sc=new Scanner (System.in);
+        System.out.println("El DNI de la persona cuyos datos se desea modificar: ");
+        String dni=sc.nextLine();
+        int pos=buscaDni(dni);
+            if (pos==-1){
+                System.out.println("El DNI que buscas no está en el registro"); 
+            }else{
+                System.out.println("Teclea el número de teléfono nuevo");
+                String telNuevo = sc.nextLine();
+                usuarios.get(pos).setTelefono(telNuevo);
+            }
     }
 
     /**
@@ -244,7 +270,7 @@ private void menuPrestamos(){
     }
 
     /**
-     * Método para crear un nuevo prestamo (Objeto sipo Prestamo) y añadirlo al ArrayList de prestamos.
+     * Método para crear un nuevo prestamo (Objeto tipo Prestamo) y añadirlo al ArrayList de prestamos.
      * No devuelve nada
      */
 
@@ -279,17 +305,31 @@ private void menuPrestamos(){
         String dni=solicitaDni();
         System.out.println(dni);
         int pos=buscaDni(dni);
+        int posLibro = buscaIsbn(dni);
         usuarios.remove(pos);
-        //libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()-1);
         System.out.println(pos);
+        libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
         System.out.println();
         System.out.println("La petición se ha procesado correctamente");
         System.out.println("El prestamo ha sido eliminado del registro de la Biblioteca");
         System.out.println(prestamos);
     }
 
+    /**
+     * Método para modificar el prestamo. Añade otros 15 días a la fechaDev
+     */
+
     private void modificarPrestamo() {
-        
+        Scanner sc=new Scanner (System.in);
+        System.out.println("El DNI de la persona cuyo prestamo se desea modificar: ");
+        String dni=sc.nextLine();
+        int pos=buscaDni(dni);
+            if (pos==-1){
+                System.out.println("El DNI que buscas no está en el registro"); 
+            }else{
+                System.out.println("La fecha de la devolución se prolongará 15 días");
+                //prestamos.get(pos).setFechaDev(f);
+            }
     }
 
     /**
@@ -301,6 +341,8 @@ private void menuPrestamos(){
             System.out.println(p);
         }
     }
+
+    //<editor-fold defaultstate="collapsed" desc="METODOS AUXILIARES">
 
     /**
      * Metodo para buscar un DNI en la colección de usuarios
@@ -400,8 +442,6 @@ private void menuPrestamos(){
         
     }
 
-    //fcom
-    
-  
-    
+    //</editor-fold>
+   
 }
