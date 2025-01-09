@@ -54,6 +54,8 @@ public class Biblioteca2025 {
        }while (opcion != 9);
    }
 
+   //#region MENUS SECUNDARIOS
+
    private void menuLibro(){
     Scanner sc=new Scanner (System.in);
     int opcion=0;
@@ -150,6 +152,10 @@ private void menuPrestamos(){
         }
         }while (opcion != 9);
     }
+
+    //#endregion
+
+    //#region LIBRO
     
     private void nuevoLibro() {
         String  isbn, titulo, autor, genero;
@@ -205,6 +211,10 @@ private void menuPrestamos(){
         }
     }
 
+    //#endregion
+
+    //#region USUARIO
+
     private void nuevoUsuario() {
         String  dni, nombre, email, telefono, fechaNac;
         Scanner sc=new Scanner(System.in);
@@ -241,8 +251,8 @@ private void menuPrestamos(){
     }
 
     /**
-     * Método para modificar el Usuario. Se puede modificar teléfono. 
-     * Poner tb el cambio de email
+     * Método para modificar el Usuario. Se puede modificar nombre, email y teléfono. 
+     * Poner la comprobación del email
      */
 
     private void modificarUsuario() {
@@ -250,12 +260,41 @@ private void menuPrestamos(){
         System.out.println("El DNI de la persona cuyos datos se desea modificar: ");
         String dni=sc.nextLine();
         int pos=buscaDni(dni);
+        int opcion=-1;
             if (pos==-1){
                 System.out.println("El DNI que buscas no está en el registro"); 
             }else{
-                System.out.println("Teclea el número de teléfono nuevo");
-                String telNuevo = sc.nextLine();
-                usuarios.get(pos).setTelefono(telNuevo);
+                System.out.println("");
+                do{
+                    System.out.println("\n\n\n\n\n\t\t\t\t¿Qué desea modificar?\n");
+                    System.out.println("\t\t\t\t1 - NOMBRE");
+                    System.out.println("\t\t\t\t2 - EMAIL");
+                    System.out.println("\t\t\t\t3 - TELÉFONO");
+                    System.out.println("\t\t\t\t9 - SALIR");
+                    opcion=sc.nextInt();
+                    switch (opcion){
+                        case 1:{
+                            System.out.println("Teclea el nombre de usuario nuevo");
+                            String nombre = sc.nextLine();
+                            usuarios.get(pos).setNombre(nombre);
+                            break;
+                        }    
+                        case 2:{
+                            System.out.println("Teclea el email nuevo");
+                            String email = sc.nextLine();
+                            usuarios.get(pos).setEmail(email);
+                            break;
+                        } 
+                        case 3:{
+                            System.out.println("Teclea el número de teléfono nuevo");
+                            String telNuevo = sc.nextLine();
+                            usuarios.get(pos).setTelefono(telNuevo);
+                            break;
+                        }  
+                    }
+                    }while (opcion != 9);
+                }
+                
             }
     }
 
@@ -269,6 +308,10 @@ private void menuPrestamos(){
        }
     }
 
+    //#endregion
+
+    //#region PRÉSTAMO
+
     /**
      * Método para crear un nuevo prestamo (Objeto tipo Prestamo) y añadirlo al ArrayList de prestamos.
      * No devuelve nada
@@ -279,6 +322,8 @@ private void menuPrestamos(){
         int posUsuario = buscaDni(solicitaDni());
         if (posUsuario==-1) {
             System.out.println("Aún no es usuario de la biblioteca");
+            //System.out.println("¿Desea dar de alta a nuevo usuario?");
+
             //poner un metodo "Quieres hacerte socio?"
         } else{
             System.out.println("Identificación del libro:");
@@ -292,9 +337,7 @@ private void menuPrestamos(){
             }else{
                 System.out.println("No quedan más unidades disponibles de este libro");
             }
-
         }
-      
     }
 
     /**
@@ -304,11 +347,10 @@ private void menuPrestamos(){
     private void eliminarPrestamo() {
         String dni=solicitaDni();
         System.out.println(dni);
-        int pos=buscaDni(dni);
-        int posLibro = buscaIsbn(dni);
-        usuarios.remove(pos);
-        System.out.println(pos);
-        libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
+        int pos=buscaPrestamo(dni);
+        //int isbn = prestamos.get(pos).getLibroPrestamo();
+        //int posLibro = buscaIsbn(isbn);
+        //libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
         System.out.println();
         System.out.println("La petición se ha procesado correctamente");
         System.out.println("El prestamo ha sido eliminado del registro de la Biblioteca");
@@ -328,7 +370,7 @@ private void menuPrestamos(){
                 System.out.println("El DNI que buscas no está en el registro"); 
             }else{
                 System.out.println("La fecha de la devolución se prolongará 15 días");
-                //prestamos.get(pos).setFechaDev(f);
+                //prestamos.get(pos).setFechaDev(fechaDev+15);
             }
     }
 
@@ -342,7 +384,10 @@ private void menuPrestamos(){
         }
     }
 
-    //<editor-fold defaultstate="collapsed" desc="METODOS AUXILIARES">
+    //#endregion
+
+    //#region MÉTODOS AUXILIARES
+
 
     /**
      * Metodo para buscar un DNI en la colección de usuarios
@@ -377,6 +422,53 @@ private void menuPrestamos(){
         }
         return pos;
     }
+
+    /**
+     * Método para buscar un préstamo una vez recibido el DNI del usuario
+     * @param dni
+     * @return pos int del préstamo. 
+     */
+
+    public int buscaPrestamo (String dni){
+        int pos=-1;
+        for (int i = 0; i < prestamos.size(); i++) {
+            if (prestamos.get(i).getUsuarioPrest().equals(dni)) {
+                pos=i;
+                break;
+            }
+        }
+        return pos;
+    }
+
+    /* 
+
+    public int encuentraPrestamo(){
+        Scanner sc=new Scanner(System.in);
+        int pos = -1;
+        String user = solicitaDni();
+        if(buscaDni(user)==-1){
+            System.out.println("El Usuario introducido es incorrecto");
+        } else{
+            String Isbn = solicitaIsbn();
+            if(buscaIsbn(Isbn)==-1){
+                System.out.println("El Isbn introducido es incorrecto");
+            } else{
+                int posLibro=buscaIsbn(Isbn);
+                for (int i = 0; i<prestamos.size(); i++) {
+                        if(prestamos.get(i).getLibroPrest().getIsbn().equalsIgnoreCase(Isbn) && prestamos.get(i).getUsuarioPrest().getDni().equalsIgnoreCase(user) ){
+                            pos = i;
+                           libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
+                            break;
+                        }
+
+                    }
+            }
+        }
+        
+        return pos;
+        
+    }
+        */
 
     /**
      * Método para solicitar por el teclado el DNI de un usuario. pdte de validación
@@ -441,7 +533,8 @@ private void menuPrestamos(){
             }
         
     }
+    
 
-    //</editor-fold>
+    //#endregion
    
 }
