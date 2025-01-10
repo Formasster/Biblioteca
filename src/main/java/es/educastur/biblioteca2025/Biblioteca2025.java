@@ -129,7 +129,8 @@ private void menuPrestamos(){
         System.out.println("\t\t\t\t1 - NUEVO PRESTAMO");
         System.out.println("\t\t\t\t2 - DEVOLUCIONES");
         System.out.println("\t\t\t\t3 - PRÓRROGAS");
-        System.out.println("\t\t\t\t4 - LISTA DE PRESTAMOS");
+        System.out.println("\t\t\t\t4 - LISTA DE TODOS LOS PRESTAMOS");
+        System.out.println("\t\t\t\t5 - LISTA DE PRESTAMOS DE UN USUARIO");
         System.out.println("\t\t\t\t9 - SALIR");
         opcion=sc.nextInt();
         switch (opcion){
@@ -149,10 +150,20 @@ private void menuPrestamos(){
                 listaPrestamos();
                 break;
             } 
+            case 5:{
+                listaPrestamosUsuario();
+                break;
+            }
+            case 6:{
+                listaLibroPrestado();
+                break;
+            }
+            case 9:{
+                break;
+            }    
         }
-        }while (opcion != 9);
-    }
-
+    }while (opcion != 9);
+}
     //#endregion
 
     //#region LIBRO
@@ -373,6 +384,42 @@ private void menuPrestamos(){
             }
             //System.out.println(prestamos);
     } 
+
+    /**
+     * Método para listar los prestamos de un usuario. No pide ni devuelve nada
+     */
+
+    private void listaPrestamosUsuario() {
+        String dni=solicitaDni();
+        for (Prestamo p : prestamos) {
+            if (p.getUsuarioPrest().getDni().equals(dni)){
+                System.out.println(p);
+                break;
+            }else{
+                System.out.println("El usuario intruducido no tiene prestamos");
+                break;
+            }
+        }
+    }
+
+    /**
+     * Método para listar los libros prestados. No pide ni devuelve nada
+     */
+
+     private void listaLibroPrestado(){
+        String isbn=solicitaIsbn();
+        for (Libro libro : libros) {
+            for (Prestamo prestamo : prestamos) {
+                if (prestamo.getLibroPrest().getIsbn().equals(isbn)){
+                    System.out.println(libro);
+                    break;
+                }else{
+                    System.out.println("No hay libros prestados");
+                    break;
+                }
+            }
+        }
+     }
 
     /**
      * Método que lista los prestamos. No pide ni devuelve nada
