@@ -30,10 +30,10 @@ public class Biblioteca2025 {
         Scanner sc=new Scanner (System.in);
        int opcion=0;
        do{
-           System.out.println("\n\n\n\n\n\t\t\t\tBIBLIOTECA\n");
+           System.out.println("\n\n\n\n\n\t\t\t\tGESTIÓN DE LA BIBLIOTECA\n");
            System.out.println("\t\t\t\t1 - LIBROS");
            System.out.println("\t\t\t\t2 - USUARIOS");
-           System.out.println("\t\t\t\t3 - PRESTAMOS");
+           System.out.println("\t\t\t\t3 - PRESTAMOS/DEVOLUCIONES");
            System.out.println("\t\t\t\t9 - SALIR");
            opcion=sc.nextInt();
            switch (opcion){
@@ -60,11 +60,11 @@ public class Biblioteca2025 {
     Scanner sc=new Scanner (System.in);
     int opcion=0;
     do{
-        System.out.println("\n\n\n\n\n\t\t\t\tLIBROS\n");
+        System.out.println("\n\n\n\n\n\t\t\t\tGESTIÓN DE LIBROS\n");
         System.out.println("\t\t\t\t1 - NUEVO LIBRO");
         System.out.println("\t\t\t\t2 - ELIMINAR LIBRO");
-        System.out.println("\t\t\t\t3 - MODIFICAR LIBRO");
-        System.out.println("\t\t\t\t4 - LISTADOS");
+        System.out.println("\t\t\t\t3 - MODIFICAR DATOS DE LIBRO");
+        System.out.println("\t\t\t\t4 - LISTADO");
         System.out.println("\t\t\t\t9 - SALIR");
         opcion=sc.nextInt();
         switch (opcion){
@@ -92,7 +92,7 @@ public class Biblioteca2025 {
         Scanner sc=new Scanner (System.in);
         int opcion=0;
         do{
-            System.out.println("\n\n\n\n\n\t\t\t\tUSUARIOS\n");
+            System.out.println("\n\n\n\n\n\t\t\t\tGESTIÓN DE USUARIOS\n");
             System.out.println("\t\t\t\t1 - NUEVO USUARIO");
             System.out.println("\t\t\t\t2 - ELIMINAR USUARIO");
             System.out.println("\t\t\t\t3 - MODIFICAR USUARIO");
@@ -125,10 +125,10 @@ private void menuPrestamos(){
     Scanner sc=new Scanner (System.in);
     int opcion=0;
     do{
-        System.out.println("\n\n\n\n\n\t\t\t\tPRESTAMOS\n");
+        System.out.println("\n\n\n\n\n\t\t\t\tGESTIÓN DE PRESTAMOS\n");
         System.out.println("\t\t\t\t1 - NUEVO PRESTAMO");
-        System.out.println("\t\t\t\t2 - ELIMINAR PRESTAMO");
-        System.out.println("\t\t\t\t3 - MODIFICAR PRESTAMO");
+        System.out.println("\t\t\t\t2 - DEVOLUCIONES");
+        System.out.println("\t\t\t\t3 - PRÓRROGAS");
         System.out.println("\t\t\t\t4 - LISTA DE PRESTAMOS");
         System.out.println("\t\t\t\t9 - SALIR");
         opcion=sc.nextInt();
@@ -138,11 +138,11 @@ private void menuPrestamos(){
                 break;
             }    
             case 2:{
-                eliminarPrestamo();
+                devolucion();
                 break;
             } 
             case 3:{
-                modificarPrestamo();
+                prorroga();
                 break;
             } 
             case 4:{
@@ -180,29 +180,29 @@ private void menuPrestamos(){
     }
 
     private void eliminarLibro() {
-        Scanner sc=new Scanner (System.in);
-
         String isbn=solicitaIsbn();
         int pos=buscaIsbn(isbn);
         libros.remove(pos);
         System.out.println();
         System.out.println("La petición se ha procesado correctamente");
         System.out.println("El libro ha sido eliminado del registro de la Biblioteca");
+        //System.out.println(libros);
     }
 
     private void modificarLibro() {
         Scanner sc=new Scanner (System.in);
-        System.out.println("El ISBN del libro que se desea modificar: ");
-        String isbn=sc.nextLine();
+        String isbn=solicitaIsbn();
         int pos=buscaIsbn(isbn);
             if (pos==-1){
                 System.out.println("El ISBN que buscas no está en el registro"); 
             }else{
                 System.out.println("Cambio de ejemplares");
-                System.out.println("Introduce la nueva cantidad de ejemplares que existe en el registro: ");
+                System.out.println();
+                System.out.println("Introduce '+' si desea añadir unidades y '-' en el caso de eliminarlos más unidades");
                 int ejemplares = sc.nextInt();
-                libros.get(pos).setEjemplares(ejemplares);
+                libros.get(pos).setEjemplares(libros.get(pos).getEjemplares()+ejemplares);    
             }
+            //System.out.println(libros);
     }
 
     private void listaLibros() {
@@ -247,12 +247,13 @@ private void menuPrestamos(){
         System.out.println();
         System.out.println("La petición se ha procesado correctamente");
         System.out.println("El usuario ha sido eliminado del registro de la Biblioteca");
-        System.out.println(usuarios);
+        //System.out.println(usuarios);
     }
 
     /**
      * Método para modificar el Usuario. Se puede modificar nombre, email y teléfono. 
      * Poner la comprobación del email
+     * Método privado, no devuelve ni recoge nada, no obligatorio
      */
 
     private void modificarUsuario() {
@@ -295,7 +296,6 @@ private void menuPrestamos(){
                     }while (opcion != 9);
                 }
                 
-            }
     }
 
     /**
@@ -324,7 +324,6 @@ private void menuPrestamos(){
             System.out.println("Aún no es usuario de la biblioteca");
             //System.out.println("¿Desea dar de alta a nuevo usuario?");
 
-            //poner un metodo "Quieres hacerte socio?"
         } else{
             System.out.println("Identificación del libro:");
             int posLibro=buscaIsbn(solicitaIsbn());
@@ -341,38 +340,39 @@ private void menuPrestamos(){
     }
 
     /**
-     * Método para eliminar un prestamo  Privado, no devuelve ni recoge nada  
+     * Método para devolver al registro el libro prestado. Privado, no devuelve ni recoge nada  
      */
 
-    private void eliminarPrestamo() {
-        String dni=solicitaDni();
-        System.out.println(dni);
-        int pos=buscaPrestamo(dni);
-        //int isbn = prestamos.get(pos).getLibroPrestamo();
-        //int posLibro = buscaIsbn(isbn);
-        //libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
+    private void devolucion() {
+        System.out.println("Datos para la devolución:");
+        String isbn=solicitaIsbn();
+        int pos=buscaPrestamo(solicitaDni(), isbn);
+        if (pos==-1){
+            System.out.println("El prestamo que buscas no existe"); 
+        }else{
+            System.out.println("La fecha de la devolución se prolongará 15 días");
+            prestamos.get(pos).setFechaDev(LocalDate.now());
+            libros.get(buscaIsbn(isbn)).setEjemplares(+1);
+        }
         System.out.println();
-        System.out.println("La petición se ha procesado correctamente");
-        System.out.println("El prestamo ha sido eliminado del registro de la Biblioteca");
-        System.out.println(prestamos);
+        System.out.println("La devolución se ha procesado correctamente");
+        //System.out.println(prestamos);
     }
 
     /**
      * Método para modificar el prestamo. Añade otros 15 días a la fechaDev
      */
 
-    private void modificarPrestamo() {
-        Scanner sc=new Scanner (System.in);
-        System.out.println("El DNI de la persona cuyo prestamo se desea modificar: ");
-        String dni=sc.nextLine();
-        int pos=buscaDni(dni);
+    private void prorroga() {
+        int pos=buscaPrestamo(solicitaDni(), solicitaIsbn());
             if (pos==-1){
-                System.out.println("El DNI que buscas no está en el registro"); 
+                System.out.println("El prestamo que buscas no existe"); 
             }else{
                 System.out.println("La fecha de la devolución se prolongará 15 días");
-                //prestamos.get(pos).setFechaDev(fechaDev+15);
+                prestamos.get(pos).setFechaDev(prestamos.get(pos).getFechaDev().plusDays(15));
             }
-    }
+            //System.out.println(prestamos);
+    } 
 
     /**
      * Método que lista los prestamos. No pide ni devuelve nada
@@ -425,14 +425,15 @@ private void menuPrestamos(){
 
     /**
      * Método para buscar un préstamo una vez recibido el DNI del usuario
-     * @param dni
+     * @param dni (Sring) del usuario que realiza el préstamo
+     * @param isbn (String) del libro prestado
      * @return pos int del préstamo. 
      */
 
-    public int buscaPrestamo (String dni){
+    public int buscaPrestamo (String dni, String isbn){
         int pos=-1;
         for (int i = 0; i < prestamos.size(); i++) {
-            if (prestamos.get(i).getUsuarioPrest().equals(dni)) {
+            if (prestamos.get(i).getUsuarioPrest().equals(dni) && prestamos.get(i).getLibroPrest().equals(isbn)){ 
                 pos=i;
                 break;
             }
@@ -440,35 +441,6 @@ private void menuPrestamos(){
         return pos;
     }
 
-    /* 
-
-    public int encuentraPrestamo(){
-        Scanner sc=new Scanner(System.in);
-        int pos = -1;
-        String user = solicitaDni();
-        if(buscaDni(user)==-1){
-            System.out.println("El Usuario introducido es incorrecto");
-        } else{
-            String Isbn = solicitaIsbn();
-            if(buscaIsbn(Isbn)==-1){
-                System.out.println("El Isbn introducido es incorrecto");
-            } else{
-                int posLibro=buscaIsbn(Isbn);
-                for (int i = 0; i<prestamos.size(); i++) {
-                        if(prestamos.get(i).getLibroPrest().getIsbn().equalsIgnoreCase(Isbn) && prestamos.get(i).getUsuarioPrest().getDni().equalsIgnoreCase(user) ){
-                            pos = i;
-                           libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares()+1);
-                            break;
-                        }
-
-                    }
-            }
-        }
-        
-        return pos;
-        
-    }
-        */
 
     /**
      * Método para solicitar por el teclado el DNI de un usuario. pdte de validación

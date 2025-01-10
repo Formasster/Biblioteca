@@ -4,20 +4,20 @@ package es.educastur.biblioteca2025;
 import java.time.LocalDate;
 
 public class Prestamo {
-    private Libro libroPrestamo;
+    private Libro libroPrest;
     private Usuario usuarioPrest;
     private LocalDate fechaPrest;
     private LocalDate fechaDev;
 
-    public Prestamo(Libro libroPrestamo, Usuario usuarioPrest, LocalDate fechaPrest, LocalDate fechaDev) {
-        this.libroPrestamo = libroPrestamo;
+    public Prestamo(Libro libroPrest, Usuario usuarioPrest, LocalDate fechaPrest, LocalDate fechaDev) {
+        this.libroPrest = libroPrest;
         this.usuarioPrest = usuarioPrest;
         this.fechaPrest = fechaPrest;
         this.fechaDev = fechaDev;
     }
 
-    public Libro getLibroPrestamo() {
-        return libroPrestamo;
+    public Libro getLibroPrest() {
+        return libroPrest;
     }
     public Usuario getUsuarioPrest() {
         return usuarioPrest;
@@ -30,8 +30,8 @@ public class Prestamo {
     }
     
     
-    public void setLibroPrestamo(Libro libroPrestamo) {
-        this.libroPrestamo = libroPrestamo;
+    public void setLibroPrest(Libro libroPrest) {
+        this.libroPrest = libroPrest;
     }
     public void setUsuarioPrest(Usuario usuarioPrest) {
         this.usuarioPrest = usuarioPrest;
@@ -46,7 +46,7 @@ public class Prestamo {
     
     @Override
     public String toString() {
-        return libroPrestamo + " - " + usuarioPrest + " - " + fechaPrest + " - " + fechaDev;
+        return libroPrest + " - " + usuarioPrest + " - " + fechaPrest + " - " + fechaDev;
     }
     
     
