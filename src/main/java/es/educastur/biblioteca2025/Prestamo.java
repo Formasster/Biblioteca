@@ -49,7 +49,11 @@ public class Prestamo {
         return libroPrest + " - " + usuarioPrest + " - " + fechaPrest + " - " + fechaDev;
     }
     
-    
+   /*  @Override
+    public int compareTo(Prestamo p) {
+        return this.getLibroPrest().compareTo(p.getLibroPrest());
+    }
+    */
 }
 
 
