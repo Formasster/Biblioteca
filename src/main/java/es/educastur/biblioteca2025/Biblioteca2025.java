@@ -162,6 +162,14 @@ private void menuPrestamos(){
                 listaLibroPrestado();
                 break;
             }
+            case 7:{
+                listaLibrosMasPrestados();
+                break;
+            }
+            case 8:{
+                listaUsuariosMasLectores();
+                break;
+            }
             case 9:{
                 break;
             }    
@@ -464,18 +472,37 @@ private void menuPrestamos(){
       */
 
      private void listaLibrosMasPrestados(){
-
+        ArrayList <Integer> ContadorLibros = new ArrayList(); 
+        int cont = 0;
         for (Libro libro : libros) {
             for (Prestamo p : prestamos) {
                 if (p.getLibroPrest().equals(libro)){
-                    //libro.setVecesPrestado(libro.getVecesPrestado()+1);{
-                    
+                    if (libro==p.getLibroPrest()){
+                        cont++;
+                    }   
                 }
-            
+            }
+            for (Prestamo p : prestamoHist) {
+                if (p.getLibroPrest().equals(libro)){
+                    if (libro==p.getLibroPrest()){
+                        cont++;
+                    }
+                }
+            }
+            ContadorLibros.add(cont);
+        }
+        int max=ContadorLibros.get(0);
+        for (int c: ContadorLibros) {
+            if (c>max){
+                max=c;
             }
         }
-        
-        //Collections.sort(libros.);
+        System.out.println("El libro/s más prestado/s hasta el momento con" + max + "prestamos es: ");
+        for (int i = 0; i < ContadorLibros.size(); i++) {
+            if(ContadorLibros.get(i)==max){
+                System.out.println(libros.get(i));
+            }
+        }
      }
 
     /**
@@ -483,7 +510,38 @@ private void menuPrestamos(){
     */
 
     private void listaUsuariosMasLectores(){
-        
+        ArrayList <Integer> ContadorUsuarios = new ArrayList(); 
+        for (Usuario usuario : usuarios) {
+            int cont = 0;
+            for (Prestamo p : prestamos) {
+                if (p.getUsuarioPrest().equals(usuario)){
+                    if (usuario.equals(p.getUsuarioPrest())){
+                        cont++;
+                    }   
+                }
+            }
+            for (Prestamo p : prestamoHist) {
+                if (p.getUsuarioPrest().equals(usuario)){
+                    if (usuario.equals(p.getUsuarioPrest())){
+                        cont++;
+                    }
+                }
+            }
+            ContadorUsuarios.add(cont);
+        }
+        int max=ContadorUsuarios.get(0);
+        for (int c: ContadorUsuarios) {
+            if (c>max){
+                max=c;
+            }
+        }
+        System.out.println("El libro/s más prestado/s hasta el momento con " + max + " prestamos es: ");
+        for (int i = 0; i < ContadorUsuarios.size(); i++) {
+            if(ContadorUsuarios.get(i)==max){
+                System.out.println(libros.get(i));
+            }
+        }
+     
     }
 
 
@@ -507,7 +565,6 @@ private void menuPrestamos(){
             }
             System.out.println(p);
         }
-        
     }
 
     //#endregion
