@@ -65,7 +65,8 @@ public class Biblioteca2025 {
         System.out.println("\t\t\t\t1 - NUEVO LIBRO");
         System.out.println("\t\t\t\t2 - ELIMINAR LIBRO");
         System.out.println("\t\t\t\t3 - MODIFICAR DATOS DE LIBRO");
-        System.out.println("\t\t\t\t4 - LISTADO DE LIBROS DISPONIBLES");    
+        System.out.println("\t\t\t\t4 - LISTADO DE LIBROS DISPONIBLES"); 
+        System.out.println("\t\t\t\t5 - LIBROS NO PRESTADOS");   
         System.out.println("\t\t\t\t9 - SALIR");
         opcion=sc.nextInt();
         switch (opcion){
@@ -98,6 +99,7 @@ public class Biblioteca2025 {
             System.out.println("\t\t\t\t2 - ELIMINAR USUARIO");
             System.out.println("\t\t\t\t3 - MODIFICAR USUARIO");
             System.out.println("\t\t\t\t4 - LISTA DE USUARIOS");
+            System.out.println("\t\t\t\t5 - USUARIOS CON PRESTAMOS");
             System.out.println("\t\t\t\t9 - SALIR");
             opcion=sc.nextInt();
             switch (opcion){
@@ -134,10 +136,15 @@ private void menuPrestamos(){
         System.out.println("\t\t\t\t5 - LISTA DE PRESTAMOS DE UN USUARIO");
         System.out.println("\t\t\t\t6 - LISTA DE LIBROS PRESTADOS");
         System.out.println("\t\t\t\t7 - LISTA DE LIBROS MÁS PRESTADOS");
-        System.out.println("\t\t\t\t8 - LISTA DE USUARIOS MÁS LECTORES");       
-        System.out.println("\t\t\t\t9 - SALIR");
+        System.out.println("\t\t\t\t8 - LISTA DE USUARIOS MÁS LECTORES");   
+        System.out.println("\t\t\t\t9 - PRESTAMOS POR AÑO");
+        System.out.println("\t\t\t\t10 - PRESTAMOS POR AÑO CONTADOR");    
+        System.out.println("\t\t\t\t0 - SALIR");
         opcion=sc.nextInt();
         switch (opcion){
+            case 0:{
+                break;
+            } 
             case 1:{
                 nuevoPrestamo();
                 break;
@@ -174,7 +181,7 @@ private void menuPrestamos(){
                 break;
             }    
         }
-    }while (opcion != 9);
+    }while (opcion != 0);
 }
     //#endregion
 
@@ -226,6 +233,47 @@ private void menuPrestamos(){
                 libros.get(pos).setEjemplares(libros.get(pos).getEjemplares()+ejemplares);    
             }
             //System.out.println(libros);
+    }
+
+    private void librosNoPrestados(){
+        System.out.println("Libros ACTUALMENTE no prestados:");
+        for (Libro libro : libros) {
+            boolean prestado=false;
+            for (Prestamo p : prestamos) {
+            if (p.getLibroPrest().equals(libro)) {
+                prestado=true;
+                break;
+            }
+           }
+           if (prestado==false) {
+            System.out.println(libro);
+           }
+        }
+        
+        System.out.println("Libros NUNCA prestados:");
+         for (Libro libro : libros) {
+            boolean prestado=false;
+                for (Prestamo p : prestamos) {
+                    if (p.getLibroPrest().equals(libro)) {
+                        prestado=true;
+                        break;
+                    }
+                
+                }
+                if (!prestado) {
+                    for (Prestamo p : prestamoHist) {
+                        if (p.getLibroPrest().equals(libro)) {
+                            prestado=true;
+                            break;
+                        }
+                        
+                    }
+                }
+            if (prestado==false) {
+                System.out.println(libro);
+            }
+        }    
+
     }
 
     private void listaLibros() {
@@ -321,6 +369,21 @@ private void menuPrestamos(){
                     }while (opcion != 9);
                 }
                 
+    }
+
+    private void usuariosConPrestamos(){
+        for (Usuario u: usuarios) {
+            boolean tiene= false;
+            for (Prestamo p: prestamos) {
+                if (p.getUsuarioPrest().equals(u)) {
+                tiene = true;
+                break;
+                }
+            }
+            if (tiene==true) {
+                System.out.println(u);
+            }  
+        }
     }
 
     /**
@@ -541,7 +604,40 @@ private void menuPrestamos(){
                 System.out.println(libros.get(i));
             }
         }
-     
+    }
+
+    private void prestamosUsuarioYear(){
+        Scanner sc= new Scanner(System.in);
+        String dni=solicitaDni();
+        if (buscaDni(dni)!=-1){
+            System.out.println("Teclea el año para consultar préstamos(2023/2024):");
+            int year= sc.nextInt();
+            for (Prestamo p: prestamoHist) {
+                if (p.getFechaPrest().getYear()==year&&p.getUsuarioPrest().getDni().equals(dni)) {
+                    System.out.println(p);
+                }
+            }
+        }
+    }
+
+    private void prestamosYearCont(){
+        int año=prestamoHist.get(0).getFechaPrest().getYear();
+        int contador=0;
+        System.out.println("PRESTAMOS AÑO: "+año);
+        System.out.println();
+        for (Prestamo p:  prestamoHist) {
+            if (p.getFechaPrest().getYear()==año) {
+                System.out.println(p);
+                contador++;
+            }else{
+                System.out.println("El total de préstamos en el año "+año+" es: "+contador);
+                año=p.getFechaPrest().getYear();
+                System.out.println("PRESTAMOS AÑO: "+año);
+                System.out.println(p);
+                contador=1;
+            }
+        }
+        System.out.println("El total de préstamos en el año "+año+" es: "+contador);
     }
 
 
@@ -703,5 +799,5 @@ private void menuPrestamos(){
     
 
     //#endregion
-   
+  
 }
