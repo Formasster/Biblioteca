@@ -298,17 +298,13 @@ private void menuPrestamos(){
         System.out.println("DNI:");
         dni=sc.nextLine();
         System.out.println("NOMBRE:");
-        nombre=sc.next();
-        do{
-            System.out.println("EMAIL:");
-            email=sc.next();
-        }while(!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
+        nombre=sc.nextLine();
         do{
             System.out.println("TELEFONO:");
             telefono=sc.next();
         }while(!telefono.matches("[6-7][0-9]{8}")); 
 
-        usuarios.add(new Usuario(dni,nombre,email,telefono));
+        usuarios.add(new Usuario(dni,nombre,telefono));
     }
 
     private void eliminarUsuario() {
@@ -342,24 +338,18 @@ private void menuPrestamos(){
                 do{
                     System.out.println("\n\n\n\n\n\t\t\t\t¿Qué desea modificar?\n");
                     System.out.println("\t\t\t\t1 - NOMBRE");
-                    System.out.println("\t\t\t\t2 - EMAIL");
-                    System.out.println("\t\t\t\t3 - TELÉFONO");
+                    System.out.println("\t\t\t\t2 - TELÉFONO");
                     System.out.println("\t\t\t\t9 - SALIR");
                     opcion=sc.nextInt();
+                    sc.nextLine();
                     switch (opcion){
                         case 1:{
                             System.out.println("Teclea el nombre de usuario nuevo");
                             String nombre = sc.nextLine();
                             usuarios.get(pos).setNombre(nombre);
                             break;
-                        }    
+                        }     
                         case 2:{
-                            System.out.println("Teclea el email nuevo");
-                            String email = sc.nextLine();
-                            usuarios.get(pos).setEmail(email);
-                            break;
-                        } 
-                        case 3:{
                             System.out.println("Teclea el número de teléfono nuevo");
                             String telNuevo = sc.nextLine();
                             usuarios.get(pos).setTelefono(telNuevo);
@@ -758,30 +748,12 @@ private void menuPrestamos(){
     }
 
     private void cargaDatos(){
-            libros.add(new Libro("1-11","El Hobbit","JRR Tolkien","Aventuras",3)); 
-            libros.add(new Libro("1-22","El Silmarillon","JRR Tolkien","Aventuras",3)); 
-            libros.add(new Libro("1-33","El Médico","N. Gordon","Aventuras",4)); 
-            libros.add(new Libro("1-44","Chamán","N. Gordon","Aventuras",3)); 
-            libros.add(new Libro("1-55","Momo","M. Ende","Aventuras",2)); 
-            libros.add(new Libro("1-66","Paraíso inhabitado","A.M.Matute","Aventuras",2)); 
-            libros.add(new Libro("1-77","Olvidado Rey Gudú","A.M.Matute","Aventuras",2)); 
-            libros.add(new Libro("1-88","El último barco","D.Villar","Novela Negra",3)); 
-            libros.add(new Libro("1-99","Ojos de agua","D.Villar","Novela Negra",2)); 
+            
     
-            usuarios.add(new Usuario("11","Ana","ana@email.com","621111111")); 
-            usuarios.add(new Usuario("22","David","david@email.com","622222222")); 
-            usuarios.add(new Usuario("33","Bea","bea@email.com","623333333")); 
-            usuarios.add(new Usuario("44","Lucas","lucas@email.com","624444444")); 
-            usuarios.add(new Usuario("55","Carlota","carlota@email.com","625555555")); 
-            usuarios.add(new Usuario("66","Juan","juan@email.com","626666666"));
+            
             
             LocalDate hoy= LocalDate.now();
-            prestamos.add(new Prestamo(libros.get(2),usuarios.get(0), hoy,hoy.plusDays(15)));
-            prestamos.add(new Prestamo(libros.get(8),usuarios.get(2), hoy,hoy.plusDays(15)));
-            prestamos.add(new Prestamo(libros.get(5),usuarios.get(4), hoy,hoy.plusDays(15)));
-            prestamos.add(new Prestamo(libros.get(5),usuarios.get(0), hoy,hoy.plusDays(15)));
-            prestamos.add(new Prestamo(libros.get(6),usuarios.get(2), hoy,hoy.plusDays(15)));
-            prestamos.add(new Prestamo(libros.get(2),usuarios.get(1), hoy,hoy.plusDays(15)));
+            
         
             for (Libro l:libros) {
                 System.out.println(l);

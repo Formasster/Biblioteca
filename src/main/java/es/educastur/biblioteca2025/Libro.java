@@ -16,7 +16,6 @@ public class Libro {
         this.ejemplares = ejemplares;
     }
     
-    //new Libro ("111111", "El lazar...", " ", " ",3);
 
     public String getIsbn() {
         return isbn;
